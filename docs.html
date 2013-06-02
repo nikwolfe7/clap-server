@@ -1,0 +1,241 @@
+<!DOCTYPE>
+<html>
+<head>
+<title>CLAP API Documentation</title>
+<style type="text/css">
+body {
+	font-family:verdana;
+	font-size:14px;
+}
+a { text-decoration:none; color:blue; }
+h3 { font-family:monospace; font-weight:bold; font-size:1.4em; }
+h4 { font-family:monospace; color:#888; font-weight:bold; font-size:1.2em; }
+h1, h2 {
+	color:#00cc00;
+	text-shadow:0 0 1em #ccc;
+}
+p {
+	margin-bottom:1.8em;
+	margin-top:1.8em;
+}
+code {
+	background-color: #eee;
+	padding:1.5em;
+	border-radius:1em;
+}
+#container {
+	width:68%;
+	margin-right:auto;
+	margin-left:auto;
+	box-shadow:0 0 1em #ccc;
+	border:2px solid #bbb;
+	border-radius:1em;
+	padding:1.5em;
+}
+.section {
+	width:95%;
+	margin-right:auto;
+	margin-left:auto;
+	box-shadow:0 0 1em #ccc;
+	border:2px solid #bbb;
+	border-radius:1em;
+	padding:1.5em;
+	margin-bottom:1em;
+}
+ul { list-style:none; margin-left:-2em; line-height:0.5em; padding-bottom:0.5em; }
+</style>
+</head>
+<body>
+<div id="container">
+
+
+<h1>CLAP API Documentation</h1>
+<p><em>The complete guide to the Celebrate Language Audio Project RESTful Application Programmer Interface</em></p>
+
+
+<h2>Overview</h2>
+<p>As of this version, the API accepts <b>only</b> HTTP GET requests. That means all requests sent to this URL must be of the form:</p>
+<br>
+<code>
+http://www.celebrate-language.com/public-api/?action=[function name]&[param]=[value]
+</code>
+<br><br>
+<p>The URL must always be followed by a <b>question mark (?)</b> and the word <b>'action'</b>. The value of 'action' follows the <b>equals sign (=)</b>, and is always the <b>name of the function</b>. The list of functions available to you is described below, don't worry! The parameters required by each function (as defined below) are then appended to the URL one after the other (in order) and are represented as <b>key=value</b> pairs separated by <b>ampersands (&)</b>. All of these functions return an HTTP reponse with a <b>JSON array</b> containing your data. It is the job of your application to process the JSON objects and turn them into something useful.</p>
+<p>For example...</p>
+<br>
+<code>
+http://www.celebrate-language.com/public-api/?action=hello
+</code>
+<br><br>
+<p>Returns the following to your browser:</p>
+<br>
+<code>
+{"I":"am","a":"sample","json":"array"}
+</code>
+<br><br>
+<p>Try it for yourself! (Or click <a href="http://www.celebrate-language.com/public-api/?action=hello" target="_blank">here</a>...) Note: This article does <b>not</b> discuss client-side JSON array parsing. Read about that <a href="http://www.w3schools.com/json/default.asp" target="_blank">here</a>.</p>
+<p><b><a href="http://www.techrepublic.com/blog/app-builder/calling-restful-services-from-your-android-app/1076">Click here to learn about Calling RESTful services from your Android app!</a></b></p>
+
+
+<h2>API</h2>
+<ul>
+<li><a href="#1"><h4>get_country_list</h4></a></li>
+<li><a href="#2"><h4>get_lang_list_by_country</h4></a></li>
+<li><a href="#3"><h4>get_lang_list_by</h4></a></li>
+<li><a href="#4"><h4>get_lessons_by_lang</h4></a></li>
+<li><a href="#5"><h4>get_phrases_by_lesson_id</h4></a></li>
+<li><a href="#6"><h4>get_order_by_lesson_id</h4></a></li>
+<li><a href="#7"><h4>get_phrase_by_key</h4></a></li>
+</ul>
+
+<!-- COPY TEMPLATE -->
+<div class="section">
+<h3 id="1">get_country_list</h3>
+<em>Returns a list of country names from the database. These countries can serve as keys to inquire about available language resources</em>
+<p>Parameters: None</p>
+<p>Return Type: <b>1D JSON array</b></p>
+<p>Usage example:</p>
+<br>
+<code>http://www.celebrate-language.com/public-api/?action=get_country_list</code>
+<br><br>
+<p>Try it here: <a href="http://www.celebrate-language.com/public-api/?action=get_country_list" target="_blank">Click!</a></p>
+<p>This one is pretty self explanatory...</p>
+</div>
+<!-- COPY TEMPLATE -->
+
+
+<!-- COPY TEMPLATE -->
+<div class="section">
+<h3 id="2">get_lang_list_by_country</h3>
+<em>Returns a list of language and dialect names based on a passed 'country' parameter. These language and dialect names can serve as keys to inquire about additional resources</em>
+<p>Parameters: <b>country</b></p>
+<p>Return Type: <b>1D JSON array</b></p>
+<p>Usage example...</p>
+<br>
+<code>http://www.celebrate-language.com/public-api/?action=get_lang_list_by_country&country=ghana</code>
+<br><br>
+<p>Try it here: <a href="http://www.celebrate-language.com/public-api/?action=get_lang_list_by_country&country=ghana" target="_blank">Click!</a></p>
+<p>It is recommended that you determine which countries are available before trying to pass a random country name to this function. If no languages are available for a given country 'key', the function will return nothing. This can be accomplished easily using the <a href="#1">get_country_list</a> function</b>.</p>
+</div>
+<!-- COPY TEMPLATE -->
+
+
+<!-- COPY TEMPLATE -->
+<div class="section">
+<h3 id="3">get_lang_list_by</h3>
+<em>Returns a list of language and dialect names from the database based on a single variable parameter, either country, region, or area</em>
+<p>Parameters: <b>country | region | area</b></p>
+<p>Return Type: <b>1D JSON array</b></p>
+<p>Usage example...</p>
+<br>
+<code>http://www.celebrate-language.com/public-api/?action=get_lang_list_by&area=Akropong</code>
+<br><br>
+<p>Try it here: <a href="http://www.celebrate-language.com/public-api/?action=get_lang_list_by&area=Akropong" target="_blank">Click!</a></p>
+<br>
+<code>http://www.celebrate-language.com/public-api/?action=get_lang_list_by&country=GHANA</code>
+<br><br>
+<p>Try it here: <a href="http://www.celebrate-language.com/public-api/?action=get_lang_list_by&country=GHANA" target="_blank">Click!</a></p>
+<p>This function takes <b>ONE</b> paramter, either a <b>country</b>, a <b>region</b>, or an <b>area</b>. Countries are considered the highest level of organization, and regions are below countries. In Ghana's case, for instance, the names of the 10 regions (Eastern, Brong Ahafo, etc.) will work as 'region' parameters. Area refers to anything smaller than a region, including cities, towns, districts, and villages. It should be noted that this function will NOT process multiple parameters. If multiple parameters are supplied, only ONE of the items will be used to search the database. The items are weighted in terms of specificity. Thus, area parameters will be prioritized over region parameters, and region parameters will be prioritized over country parameters. Simply supply a SINGLE parameter, and the database will return a list of languages spoken within that area, region, or country.</p>
+<p>If there is an error, a single item JSON array is returned with the value 'ERROR'. A 'null' return value is not an error: It indicates an empty set.</p>
+</div>
+<!-- COPY TEMPLATE -->
+
+<!-- COPY TEMPLATE -->
+<div class="section">
+<h3 id="4">get_lessons_by_lang</h3>
+<em>Returns a set of "Lesson Name" and "ID" pairs in a JSON array. The "ID" value can then be used to query the database via the <b><a href="#5">get_phrases_by_lesson_id</a></b> function</em>
+<p>Parameters: <b>lang</b></p>
+<p>Return Type: <b>2D JSON array</b></p>
+<p>Usage example...</p>
+<br>
+<code>http://www.celebrate-language.com/public-api/?action=get_lessons_by_lang&lang=gonja</code>
+<br><br>
+<p>Try it here: <a href="http://www.celebrate-language.com/public-api/?action=get_lessons_by_lang&lang=gonja" target="_blank">Click!</a></p>
+<p>The response should look something like this:</p>
+<br>
+<code>[{"Gonja Lesson 1":"61"},{"Gonja Lesson 2":"62"},{"Gonja Lesson 3":"63"}, ...<em>results</em>... ]</code>
+<br><br>
+</div>
+<!-- COPY TEMPLATE -->
+
+<!-- COPY TEMPLATE -->
+<div class="section">
+<h3 id="5">get_phrases_by_lesson_id</h3>
+<em>Returns a list of phrases and their associated information, including phrase "slug" (e.g. L1_M_5), the phrase in English, its translation, and the URL of its associated mp3 file</em>
+<p>Parameters: <b>id</b></p>
+<p>Return Type: <b>2D JSON array</b></p>
+<p>Usage example...</p>
+<br>
+<code>http://www.celebrate-language.com/public-api/?action=get_phrases_by_lesson_id&id=11</code>
+<br><br>
+<p>Try it here: <a href="http://www.celebrate-language.com/public-api/?action=get_phrases_by_lesson_id&id=11" target="_blank">Click!</a></p>
+<p>The response should look something like this:</p>
+<br>
+<code>[["L1_M_1","Good morning!","I ni sogoma!","http:// ...<em>results</em>... ]]</code>
+<br><br>
+<p>Note that the ID of the lesson here is unique. Unless you know the ID of the lesson already, users should make no assumptions about what language or lesson is going to be returned by this function. The <b><a href="#4">get_lessons_by_lang</a></b> function exists specifically to allow applications to determine the ids of the available lessons for a given language.</p>
+</div>
+<!-- COPY TEMPLATE -->
+
+<!-- COPY TEMPLATE -->
+<div class="section">
+<h3 id="6">get_order_by_lesson_id</h3>
+<em>Returns a JSON array containing a suggested ordering of phrase keys for a given lesson</em>
+<p>Parameters: <b>id</b></p>
+<p>Return Type: <b>1D JSON array</b></p>
+<p>Usage example...</p>
+<br>
+<code>http://www.celebrate-language.com/public-api/?action=get_order_by_lesson_id&id=11</code>
+<br><br>
+<p>Try it here: <a href="http://www.celebrate-language.com/public-api/?action=get_order_by_lesson_id&id=11" target="_blank">Click!</a></p>
+<p>The response should look something like this:</p>
+<br>
+<code>["L1_DA","L1_M_1","L1_M_2","L1_M_1","L1_M_2","L1_M_2", ...<em>results</em>...]</code>
+<br><br>
+<p>This function also assumes that you have the id for a given lesson on hand. If you do not, the <b><a href="#4">get_lessons_by_lang</a></b> function provides a mechanism to get the ids for the lessons for a given language.</p>
+</div>
+<!-- COPY TEMPLATE -->
+
+<!-- COPY TEMPLATE -->
+<div class="section">
+<h3 id="7">get_phrase_by_key</h3>
+<em>Returns a JSON array containing information about a phrase, including the phrase in English, its translation, and the URL of its associated .mp3 file</em>
+<p>Parameters: <b>key</b> & <b>lang</b></p>
+<p>Return Type: <b>1D JSON array</b></p>
+<p>Usage example...</p>
+<br>
+<code>http://www.celebrate-language.com/public-api/?action=get_phrase_by_key&key=L1_M_1&lang=gonja</code>
+<br><br>
+<p>Try it here: <a href="http://www.celebrate-language.com/public-api/?action=get_phrase_by_key&key=L1_M_1&lang=gonja" target="_blank">Click!</a></p>
+<p>The response should look something like this:</p>
+<br>
+<code>["L1_M_1","Good morning!","Anshumaa", ...<em>results</em>... ]</code>
+<br><br>
+<p>This function requires <b>both</b> parameters! If a phrase key and language name are not issued in the same request, the function will return nothing. The <a href="#5"><b>get_phrases_by_lesson_id</b></a> function can provide you with the keys of the phrases.</p>
+</div>
+<!-- COPY TEMPLATE -->
+
+<!-- COPY TEMPLATE ->
+<div class="section">
+<h3 id="5">get_phrases_by_lesson_id</h3>
+<em>Returns a list of phrases and their associated information, including phrase "slug" (e.g. L1_M_5), the phrase in English, its translation, and the URL of its associated mp3 file.</em>
+<p>Parameters: <b>id</b></p>
+<p>Return Type: <b>2D JSON array</b></p>
+<p>Usage example...</p>
+<br>
+<code>http://www.celebrate-language.com/public-api/?action=get_phrases_by_lesson_id&id=11</code>
+<br><br>
+<p>Try it here: <a href="http://www.celebrate-language.com/public-api/?action=get_phrases_by_lesson_id&id=11" target="_blank">Click!</a></p>
+<p>The response should look something like this:</p>
+<br>
+<code>[{"PHRASE_KEY":"L1_M_1","PHRASE_TEXT":"Good morning!", ...<em>results</em>... }]</code>
+<br><br>
+<p>Note that the ID of the lesson here is unique. Unless you know the ID of the lesson already, users should make no assumptions about what is going to be returned by this function. The <b><a href="#4">get_lessons_by_lang</a></b> function exists specifically to allow applications to determine the ids of the available lessons for a given language.</p>
+</div>
+<!-- COPY TEMPLATE -->
+
+</div>
+</body>
+</html>
+
+
